@@ -1,4 +1,5 @@
-function [opt_val,mean_val,variance_val,opt_sol]=direct_chance_5time_mean_var(k,mu)
+%record the probability split to the product one 
+function [opt_val,mean_val,variance_val,opt_sol,prob_split_product]=direct_chance_5time_mean_var(k,mu)
     initial_price = 17;
     %standard deviation
     sigma = 0.7;
@@ -50,7 +51,7 @@ function [opt_val,mean_val,variance_val,opt_sol]=direct_chance_5time_mean_var(k,
         alpha_3(j,:) = drchrnd([1,1],1)*0.05;
         alpha_4(j,:) = drchrnd([1,1],1)*0.05;
     end
-    parfor j=1:500
+    for j=1:500
         cvx_begin quiet
             variable s(5)
             var_coeff = Q*s;
@@ -75,14 +76,15 @@ function [opt_val,mean_val,variance_val,opt_sol]=direct_chance_5time_mean_var(k,
                 end
         cvx_end
         val(j) = -cvx_optval;
-        mean(j) = -quad_form(s,'oo'o'o'o'o'o'o'oo'o'ooo'o'oo'o'ooative_P0) - dot(negative_q0,s);
+        mean(j) = -quad_form(s,negative_P0) - dot(negative_q0,s);
         variance(j) = var_coeff'*var_coeff;
-        %sol(j,1:5)= s';
+        sol(j,1:5)= s';
     end
     opt_val = max(val);
     [opt_val,index] = max(val);
     mean_val = mean(index);
     variance_val = variance(index);
-    %opt_sol = sol(index,:);
+    opt_sol = sol(index,:);
+    prob_split_product = [alpha_1(index),alpha_2(index),alpha_3(index),alpha_4(index)];
 end
 

@@ -5,21 +5,21 @@ sigma = [0.9 0.2;0.2 0.9];
 X_0 = [305,305];
 k = 0.3;
 cons_variance = X_0*sigma*X_0';
-for rho = -0.5:0.1:0.5
-    cov = sqrt(sigma(1,1)*sigma(2,2))*rho;
+rho_seq =  -0.5:0.1:0.5;
+parfor j = 1:length(rho_seq)
+    cov = sqrt(sigma(1,1)*sigma(2,2))*rho_seq(j);
     sigma(1,2) = cov;
     sigma(2,1) = cov;
-%     [opt_val_portfolio_rho(j),sol_first_rho(j,:),sol_second_rho(j,:)] = ...
-%         general_model_portfolio_5time(k*ones(1,2),sigma);
-%     [opt_special_portfolio_rho(j), sol_first_special_rho(j,:), sol_second_special_rho(j,:)]=...
-%         special_trading_portfolio_2asset_5time(k*ones(1,2),sigma);
+    [opt_val_portfolio_rho(j),sol_first_rho(j,:),sol_second_rho(j,:)] = ...
+        general_model_portfolio_5time(k*ones(1,2),sigma);
+    [opt_special_portfolio_rho(j), sol_first_special_rho(j,:), sol_second_special_rho(j,:)]=...
+        special_trading_portfolio_2asset_5time(k*ones(1,2),sigma);
     [naive_feasible(j)] = all(check_naive_portfolio(k*ones(1,2),sigma)>0.95);
     if naive_feasible(j) ==1
         naive_value(j) = naive(sigma);
     else
         naive_value(j) = -Inf;
     end
-    j = j+1;
 end
 initial_price = [17,17];
 tau = 1;

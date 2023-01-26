@@ -1,13 +1,13 @@
 function [first,second,H] = hessian_constraint(q)
     initial_price = [17,17];
-    sigma = [.7, 0.6;0.6,.7];
+    sigma = [.007, 0.00006;0.00006,.00007];
     U_2 = chol(sigma);
     tau = 1;
     l = 1200;
     X_0 = [305,305];
     S_0 = [300,300];
-    beta = 0.1*sigma;
-    gamma = 0.09*sigma;
+    beta = 0.01*sigma;
+    gamma = 0.009*sigma;
     s = (S_0/2)';
     risk_weights = [8,8];
     B = diag([risk_weights(1)*gamma(1,1),risk_weights(2)*gamma(2,2)]);

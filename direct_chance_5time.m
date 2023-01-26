@@ -1,4 +1,4 @@
-function [opt_val,opt_sol]=direct_chance_5time(k)
+function [opt_val,opt_sol,probability_split]=direct_chance_5time(k)
     initial_price = 17;
     %standard deviation
     sigma = 0.7;
@@ -41,6 +41,7 @@ function [opt_val,opt_sol]=direct_chance_5time(k)
     D4 = [-k, 1-k,1-k,1-k;-k, -k,1-k,1-k;-k,-k,-k,1-k;-k,-k,-k,-k];
     e4 = k*X_0*ones(4,1);
     j =1;
+
     for alpha=0.01:0.001:0.049
         cvx_begin quiet
             variable s(5)
@@ -69,7 +70,9 @@ function [opt_val,opt_sol]=direct_chance_5time(k)
         sol(j,1:5)= s';
         j = j+1;
     end
+    alpha_seq = 0.01:0.001:0.049;
     [opt_val,index] = max(val);
     opt_sol = sol(index,:);
+    probability_split = [alpha_seq(index),0.05-alpha_seq(index)];
 end
 
