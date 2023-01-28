@@ -1,7 +1,6 @@
-j=1;
-for k=[0:0.05:0.4,0.4:0.01:0.68]
-    [opt_single_val(j),opt_single_strategy(j,:)] = direct_chance_5time(k);
-    j = j+1;
+k_seq = [0:0.05:0.4,0.4:0.01:0.68];
+parfor j=1:length(k_seq)
+    [opt_single_val(j),opt_single_strategy(j,:),opt_probability_split(j,:)] = direct_chance_5time(k);
 end
 initial_price = 17;
 %standard deviation
@@ -17,7 +16,7 @@ negative_P0 = 0.5*gamma*ones(5,5) + diag(ones(1,5)*(beta - 0.5*gamma));
 negative_q0 = -initial_price*ones(1,5);
 naive_trading = ones(5,1)*S_0/5;
 value = -quad_form(naive_trading,negative_P0) - dot(negative_q0,naive_trading);
-plot(1.-[0:0.05:0.4,0.4:0.01:0.68],opt_single_val,'b');
+plot([1.-[0:0.05:0.4,0.4:0.01:0.68]]./8,opt_single_val,'b');
 yline(value,'r');
 xlabel('required minimum capital ratio')
 ylabel('expected revenue')
