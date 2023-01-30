@@ -1,8 +1,8 @@
-sigma = [0.9 -0.2;-0.2 0.1];
+sigma = [0.9 0.2;0.2 0.9];
 % we want to maintatin that the original variance of the portfolio is
 % constant with different correlations given
 X_0 = [305,305];
-k = 0.4;
+k = 0.3;
 cons_variance = X_0*sigma*X_0';
 rho_seq =  -0.5:0.1:0.8;
 parfor j = 1:length(rho_seq)
