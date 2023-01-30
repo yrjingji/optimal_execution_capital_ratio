@@ -44,7 +44,7 @@ end
 plot(-0.5:0.1:0.8,opt_val_portfolio_rho,'b');
 hold on
 plot(-0.5:0.1:0.8,opt_special_portfolio_rho,'m');
-plot(-0.5:0.1:0.8,opt_special_portfolio_rho,'r')
+plot(-0.5:0.1:0.8,value,'r')
 legend('optimal trading strategy','affine trading strategy','naive trading strategy');
 xlabel('correlation');
 ylabel('expected revenue');
