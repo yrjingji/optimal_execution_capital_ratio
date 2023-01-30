@@ -85,6 +85,6 @@ function [opt_val,mean_val,variance_val,opt_sol,prob_split_product]=direct_chanc
     mean_val = mean(index);
     variance_val = variance(index);
     opt_sol = sol(index,:);
-    prob_split_product = [alpha_1(index),alpha_2(index),alpha_3(index),alpha_4(index)];
+    prob_split_product = [alpha_1(index,1),alpha_2(index,1),alpha_3(index,1),alpha_4(index,1)];
 end
 

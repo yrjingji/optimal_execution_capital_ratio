@@ -1,20 +1,20 @@
-j=1;
 sigma = [0.9 0.2;0.2 0.9];
 % we want to maintatin that the original variance of the portfolio is
 % constant with different correlations given
 X_0 = [305,305];
-k = 0.3;
+k = 0.5;
 cons_variance = X_0*sigma*X_0';
-rho_seq =  -0.5:0.1:0.5;
+rho_seq =  -0.5:0.1:0.8;
+parfor j=1:length(rho_seq)
+    cov(j) = sqrt(sigma(1,1)*sigma(2,2))*rho_seq(j);
+    sigma_seq(j) = [sigma(1,1) cov(j);cov(j) sigma(2,2)];
+end
 parfor j = 1:length(rho_seq)
-    cov = sqrt(sigma(1,1)*sigma(2,2))*rho_seq(j);
-    sigma(1,2) = cov;
-    sigma(2,1) = cov;
     [opt_val_portfolio_rho(j),sol_first_rho(j,:),sol_second_rho(j,:)] = ...
-        general_model_portfolio_5time(k*ones(1,2),sigma);
+        general_model_portfolio_5time(k*ones(1,2),sigma_seq(j));
     [opt_special_portfolio_rho(j), sol_first_special_rho(j,:), sol_second_special_rho(j,:)]=...
-        special_trading_portfolio_2asset_5time(k*ones(1,2),sigma);
-    [naive_feasible(j)] = all(check_naive_portfolio(k*ones(1,2),sigma)>0.95);
+        special_trading_portfolio_2asset_5time(k*ones(1,2),sigma_seq(j));
+    [naive_feasible(j)] = all(check_naive_portfolio(k*ones(1,2),sigma_seq(j))>0.95);
     if naive_feasible(j) ==1
         naive_value(j) = naive(sigma);
     else

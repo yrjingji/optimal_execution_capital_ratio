@@ -2,9 +2,9 @@ function value_naive = naive(sigma)
     initial_price = [17,17];
     tau = 1;
     l = 1200;
-    S_0 = [250,250];
-    c1 = .1;
-    c2 = 0.09;
+    S_0 = [250,200];
+    c1 = .07;
+    c2 = 0.04;
     beta = c1*sigma;
     gamma = c2*sigma;
     %objective function
