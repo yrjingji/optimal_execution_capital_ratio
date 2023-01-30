@@ -6,8 +6,8 @@ k = 0.5;
 cons_variance = X_0*sigma*X_0';
 rho_seq =  -0.5:0.1:0.8;
 parfor j=1:length(rho_seq)
-    cov(j) = sqrt(sigma(1,1)*sigma(2,2))*rho_seq(j);
-    sigma_seq(j) = [sigma(1,1) cov(j);cov(j) sigma(2,2)];
+    var = cons_variance/(X_0*[1 rho_seq(j); rho_seq(j) 1]*X_0');
+    sigma_seq(j) = var*[1 rho_seq(j); rho_seq(j) 1];
 end
 parfor j = 1:length(rho_seq)
     [opt_val_portfolio_rho(j),sol_first_rho(j,:),sol_second_rho(j,:)] = ...
