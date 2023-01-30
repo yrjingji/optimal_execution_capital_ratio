@@ -1,10 +1,11 @@
-j=1;
-for mu=0:0.01:1
+mu_seq= 0:0.01:0.21;
+parfor j=1:length(mu_seq)
     [opt_single_meanvar_val(j),opt_single_meanvar_mean(j), ...
         opt_single_meanvar_variance(j),opt_single_meanvar_strategy(j,:)] = ...
         direct_chance_5time_mean_var_fixedalpha(0.5,mu,alpha_1,alpha_2,alpha_3,alpha_4);
-    j = j+1;
-end
+    [opt_single_meanvar_val_noconstraint(j),opt_single_meanvar_mean_noconstraint(j), ...
+        opt_single_meanvar_variance_noconstraint(j),opt_single_meanvar_strategy_noconstraint(j,:)] = ...
+        direct_chance_5time_mean_var_noconstraint(mu);
 initial_price = 17;
 %standard deviation
 sigma = 0.7;
@@ -25,17 +26,34 @@ Q(4,:) = sqrt(tau)*sigma*[0 0 0 0 1];
 var_coeff = Q*naive_trading;
 mean =  -quad_form(naive_trading,negative_P0) - dot(negative_q0,naive_trading);
 variance = var_coeff'*var_coeff;
-% opt_sharpe_ratio = opt_single_meanvar_mean./sqrt(opt_single_meanvar_variance);
-% plot(0:0.01:1,opt_sharpe_ratio,'-b');
-% yline( mean/sqrt(variance),'-r');
-% ylabel('mean/std')
-% legend('optimal trading strategy','naive trading strategy');
-% xlabel('risk aversion')
-% title('single asset')
+for j=1:length(mu_seq)
+    feasible_not(j) = any(check_single_feasible(opt_single_meanvar_strategy_noconstraint(j,:)',0.5) >=0.95);
+end
 
 
 
-%-------
+
+opt_sharpe_ratio = opt_single_meanvar_mean_noconstraint./sqrt(opt_single_meanvar_variance_noconstraint);
+ plot(0:0.01:0.21,opt_single_meanvar_mean_noconstraint(1:22)./sqrt(opt_single_meanvar_variance_noconstraint(1:22)),'-b');
+hold on
+ plot(0:0.01:0.21,opt_sharpe_ratio(1:22),'-r');
+ mu_seq= 0:0.01:0.21;
+xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
+%opt_sharpe_ratio = opt_single_meanvar_mean_noconstraint./sqrt(opt_single_meanvar_variance_noconstraint);
+%check feasibility of solutions:
+for j=1:51
+    feasible_not(j) = any(check_single_feasible(opt_single_meanvar_strategy_noconstraint(j,:)',0.5) >=0.95);
+end
+ plot(0:0.01:0.21,opt_single_meanvar_mean_noconstraint(1:22)./sqrt(opt_single_meanvar_variance_noconstraint(1:22)),'-b');
+hold on
+ plot(0:0.01:0.21,opt_sharpe_ratio(1:22),'-r');
+ mu_seq= 0:0.01:0.21;
+xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
+
+
+
+
+%-------objective value generator
 mu_seq= 0:0.01:0.21;
 plot(0:0.01:0.21,opt_single_meanvar_val(1:22),'-b');
 hold on
