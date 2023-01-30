@@ -2,9 +2,9 @@ sigma = [0.9 0.2;0.2 0.9];
 % we want to maintatin that the original variance of the portfolio is
 % constant with different correlations given
 X_0 = [305,305];
-k = 0.3;
+k = 0.32;
 cons_variance = X_0*sigma*X_0';
-rho_seq =  -0.5:0.1:0.8;
+rho_seq =  -0.5:0.05:0.9;
 parfor j = 1:length(rho_seq)
     var = cons_variance/(X_0*[1 rho_seq(j); rho_seq(j) 1]*X_0');
     [opt_val_portfolio_rho(j),sol_first_rho(j,:),sol_second_rho(j,:),pro_split(j,:)] = ...
