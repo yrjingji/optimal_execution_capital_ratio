@@ -7,8 +7,8 @@ function [opt_val,sol_first,sol_second,prob_split_product]=special_trading_portf
     l = 1200;
     X_0 = [305;305];
     S_0 = [250;200];
-    c1 = .07;
-    c2 = 0.04;
+    c1 = .1;
+    c2 = 0.09;
     beta = c1*sigma;
     gamma = c2*sigma;    
     %objective function (need modification)

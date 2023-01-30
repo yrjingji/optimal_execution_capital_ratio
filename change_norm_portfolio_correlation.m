@@ -1,4 +1,4 @@
-sigma = [0.9 0.2;0.2 0.9];
+sigma = [0.9 -0.2;-0.2 0.1];
 % we want to maintatin that the original variance of the portfolio is
 % constant with different correlations given
 X_0 = [305,305];
@@ -22,8 +22,8 @@ initial_price = [17,17];
 tau = 1;
 l = 1200;
 S_0 = [250,200];
-c1 = .07;
-c2 = 0.04;
+c1 = .1;
+c2 = 0.09;
 beta = c1*sigma;
 gamma = c2*sigma;
 %objective function

@@ -3,8 +3,8 @@ function value_naive = naive(sigma)
     tau = 1;
     l = 1200;
     S_0 = [250,200];
-    c1 = .07;
-    c2 = 0.04;
+    c1 = .1;
+    c2 = 0.09;
     beta = c1*sigma;
     gamma = c2*sigma;
     %objective function
