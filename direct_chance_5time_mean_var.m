@@ -80,7 +80,6 @@ function [opt_val,mean_val,variance_val,opt_sol,prob_split_product]=direct_chanc
         variance(j) = var_coeff'*var_coeff;
         sol(j,1:5)= s';
     end
-    opt_val = max(val);
     [opt_val,index] = max(val);
     mean_val = mean(index);
     variance_val = variance(index);
