@@ -27,15 +27,29 @@ for j=1:length(mu_seq)
     feasible_not(j) = any(check_portfolio_feasibility(sol_first_noconstraint(j,:),sol_second_noconstraint(j,:),k,sigma) >=0.95);
 end
 %-----plot objective value
-
+figure(1)
 plot(mu_seq,opt_val_meanvar_noconstraint,'-r');
 hold on
 plot(mu_seq,opt_portfolio_meanvar_val,'-b');
 plot(mu_seq,opt_portfolio_meanvar_val_special,'-k')
 xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
-xlim([0,0.21]);
+xlim([mu_seq(1),mu_seq(length(mu_seq)));
 ylabel('objective value')
 legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','threshold');
 xlabel('risk aversion')
-title('single asset')
+title('portfolio')
+
+%-----show the differenve among the value
+figure(2)
+
+plot(mu_seq,opt_portfolio_meanvar_val-opt_val_meanvar_noconstraint,'-b');
+hold on
+plot(mu_seq,opt_portfolio_meanvar_val_special-opt_val_meanvar_noconstraint,'-k')
+xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
+xlim([mu_seq(1),mu_seq(length(mu_seq)));
+ylabel('objective value')
+legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','threshold');
+xlabel('risk aversion')
+title('portfolio')
+
 
