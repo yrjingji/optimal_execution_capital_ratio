@@ -32,7 +32,7 @@ for j=1:length(mu_seq)
 end
 opt_sharpe_ratio_cons =  opt_single_meanvar_mean./sqrt(opt_single_meanvar_variance);
 opt_sharpe_ratio_noncons = opt_single_meanvar_mean_noconstraint./sqrt(opt_single_meanvar_variance_noconstraint);
-naive_sharpe = mean/variance;
+naive_sharpe = mean/sqrt(variance);
 %---- plot the sharpe ratio
 figure(1)
 plot(mu_seq,opt_sharpe_ratio_noncons,'-r');
