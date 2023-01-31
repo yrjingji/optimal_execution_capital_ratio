@@ -35,7 +35,7 @@ plot(mu_seq,opt_portfolio_meanvar_val_special,'-k')
 xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
 xlim([mu_seq(1),mu_seq(length(mu_seq))]);
 ylabel('objective value')
-legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','threshold');
+legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','affine trading strategy','threshold');
 xlabel('risk aversion')
 title('portfolio')
 
@@ -48,7 +48,7 @@ plot(mu_seq,opt_portfolio_meanvar_val_special-opt_val_meanvar_noconstraint,'-k')
 xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
 xlim([mu_seq(1),mu_seq(length(mu_seq))]);
 ylabel('objective value')
-legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','threshold');
+legend('optimal trading strategy with chance constraint','affine trading strategy','threshold');
 xlabel('risk aversion')
 title('portfolio')
 
