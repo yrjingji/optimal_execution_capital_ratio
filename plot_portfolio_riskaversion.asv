@@ -4,14 +4,12 @@ k = 0.3;
 mu_seq = [0:0.01:0.43];
 parfor j=1:length(mu_seq)
     [opt_portfolio_meanvar_val(j),opt_portfolio_meanvar_mean(j), ...
-        opt_portfolio_meanvar_variance(j),opt_portfolio_meanvar_first(j,:),opt_portfolio_meanvar_second(j,:),...
-        prob_split_product_meanvar(j,:)] = ...
+        opt_portfolio_meanvar_variance(j),opt_portfolio_meanvar_first(j,:),opt_portfolio_meanvar_second(j,:)] = ...
         general_model_portfolio_5time_meanvar(k*ones(1,2),sigma,mu_seq(j));
     [opt_portfolio_meanvar_val_special(j),opt_portfolio_meanvar_mean_special(j), ...
-        opt_portfolio_meanvar_variance_special(j),opt_portfolio_meanvar_first_special(j,:),opt_portfolio_meanvar_second_special(j,:),...
-        prob_split_product_meanvar_affine(j,:)]=...
+        opt_portfolio_meanvar_variance_special(j),opt_portfolio_meanvar_first_special(j,:),opt_portfolio_meanvar_second_special(j,:)]=...
         special_model_portfolio_5time_meanvar(k*ones(1,2),sigma,mu_seq(j));
-    [opt_val_meanvar_noconstraint(j),~,~,sol_first_noconstraint(j,:),sol_second_noconstraint(j,:)]= general_model_portfolio_5time_meanvar_noconstraint(sigma,mu_seq(j));
+    [opt_val_noconstraint(j),~,~,sol_first_noconstraint(j,:),sol_second_noconstraint(j,:)]= general_model_portfolio_5time_meanvar_noconstraint(sigma,mu_seq(j));
 end
 initial_price = [17;17];
 tau = 1;
@@ -27,15 +25,15 @@ for j=1:length(mu_seq)
     feasible_not(j) = any(check_portfolio_feasibility(sol_first_noconstraint(j,:),sol_second_noconstraint(j,:),k,sigma) >=0.95);
 end
 %-----plot objective value
-
-plot(mu_seq,opt_val_meanvar_noconstraint,'-r');
-hold on
 plot(mu_seq,opt_portfolio_meanvar_val,'-b');
-plot(mu_seq,opt_portfolio_meanvar_val_special,'-k')
+hold on
+plot(0:0.01:0.21,opt_single_meanvar_val_noconstraint,'-r');
+hold on
+plot(mu_seq,opt_single_meanvar_val,'-b');
+plot(0:0.01:0.21,mean-mu_seq*variance,'-k')
 xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
 xlim([0,0.21]);
 ylabel('objective value')
-legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','threshold');
+legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','naive trading strategy','threshold');
 xlabel('risk aversion')
 title('single asset')
-

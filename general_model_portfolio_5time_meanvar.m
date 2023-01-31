@@ -93,13 +93,13 @@ function [opt_val,opt_mean,opt_var,sol_first,sol_second,prob_split_product] = ge
     cov_4 = [sigma zeros(2,2) zeros(2,2) zeros(2,2);zeros(2,2) sigma  zeros(2,2) zeros(2,2);...
         zeros(2,2) zeros(2,2) sigma zeros(2,2); zeros(2,2) zeros(2,2) zeros(2,2) sigma];
     U4 = chol(cov_4);
-    for j=1:200
+    for j=1:500
         alpha_1(j,:) = drchrnd([1,1,1],1)*0.05;
         alpha_2(j,:) = drchrnd([1,1,1],1)*0.05;
         alpha_3(j,:) = drchrnd([1,1,1],1)*0.05;
         alpha_4(j,:) = drchrnd([1,1,1],1)*0.05;
     end
-    for j=1:200
+    for j=1:500
         cvx_begin quiet
             variable s1(5)
             variable s2(5);

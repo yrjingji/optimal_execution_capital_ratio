@@ -6,7 +6,6 @@ parfor j=1:length(mu_seq)
     [opt_single_meanvar_val_noconstraint(j),opt_single_meanvar_mean_noconstraint(j), ...
         opt_single_meanvar_variance_noconstraint(j),opt_single_meanvar_strategy_noconstraint(j,:)] = ...
         direct_chance_5time_mean_var_noconstraint(mu);
-end
 initial_price = 17;
 %standard deviation
 sigma = 0.7;
@@ -38,7 +37,7 @@ figure(1)
 plot(mu_seq,opt_sharpe_ratio_noncons,'-r');
 hold on
 plot(mu_seq,opt_sharpe_ratio_cons,'-b');
-yline(naive_sharpe,'-k')
+yline(naive_sharpe,'-m')
 xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
 xlim([0,0.21]);
 ylabel('mean/std')
@@ -48,14 +47,16 @@ title('single asset')
 
 
 %-------objective value generator
-figure(2)
-plot(0:0.01:0.21,opt_single_meanvar_val_noconstraint,'-r');
+
+mu_seq= 0:0.01:0.21;
+plot(0:0.01:0.21,opt_single_meanvar_val(1:22),'-b');
 hold on
-plot(mu_seq,opt_single_meanvar_val,'-b');
+plot(0:0.01:0.21,opt_single_meanvar_val_noconstraint(1:22),'-r');
 plot(0:0.01:0.21,mean-mu_seq*variance,'-k')
 xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
+%ylim([-7000,2500])
 xlim([0,0.21]);
 ylabel('objective value')
-legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','naive trading strategy','threshold');
+legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','threshold','naive trading strategy');
 xlabel('risk aversion')
 title('single asset')

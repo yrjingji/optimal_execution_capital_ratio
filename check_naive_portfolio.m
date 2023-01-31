@@ -8,8 +8,8 @@ function real_q = check_naive_portfolio(k,sigma)
     l = 1200;
     X_0 = [305;305];
     S_0 = [250;200];
-    c1 = .1;
-    c2 = 0.09;
+    c1 = .07;
+    c2 = 0.04;
     beta = c1*sigma;
     gamma = c2*sigma;
     %create holding vectors over time.
