@@ -1,6 +1,6 @@
 function [first,second,H] = hessian_constraint(q)
     initial_price = [17,17];
-    sigma = [.007, 0.00006;0.00006,.00007];
+    sigma = [0.000095, 0.0000095;.00005];
     U_2 = chol(sigma);
     tau = 1;
     l = 1200;
