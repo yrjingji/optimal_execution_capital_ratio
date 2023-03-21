@@ -2,7 +2,7 @@ mu_seq= 0:0.01:0.21;
 parfor j=1:length(mu_seq)
     [opt_single_meanvar_val(j),opt_single_meanvar_mean(j), ...
         opt_single_meanvar_variance(j),opt_single_meanvar_strategy(j,:),single_prob_split(j,:)] = ...
-        direct_chance_5time_mean_var(0.5,mu_seq(j));
+        direct_chance_5time_mean_var(0.3,mu_seq(j));
     [opt_single_meanvar_val_noconstraint(j),opt_single_meanvar_mean_noconstraint(j), ...
         opt_single_meanvar_variance_noconstraint(j),opt_single_meanvar_strategy_noconstraint(j,:)] = ...
         direct_chance_5time_mean_var_noconstraint(mu_seq(j));
@@ -58,4 +58,4 @@ xlim([0,0.21]);
 ylabel('objective value')
 legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','naive trading strategy','threshold');
 xlabel('risk aversion')
-title('single asset')
+title('single asset: max mean-var')
