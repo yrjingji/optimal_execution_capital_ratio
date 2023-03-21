@@ -1,7 +1,7 @@
-sigma = [0.9 0.2;0.2 0.9];
+sigma = [0.9 -0.2;-0.2 0.4];
 %capital ratio requirement changed here
 k = 0.3;
-mu_seq = [0:0.01:0.43];
+mu_seq = [0:0.01:0.3];
 parfor j=1:length(mu_seq)
     [opt_portfolio_meanvar_val(j),opt_portfolio_meanvar_mean(j), ...
         opt_portfolio_meanvar_variance(j),opt_portfolio_meanvar_first(j,:),opt_portfolio_meanvar_second(j,:),...
@@ -36,8 +36,8 @@ xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
 xlim([mu_seq(1),mu_seq(length(mu_seq))]);
 ylabel('objective value')
 legend('optimal trading strategy without chance constraint','optimal trading strategy with chance constraint','affine trading strategy','threshold');
-xlabel('risk aversion')
-title('portfolio')
+xlabel('risk aversion \mu')
+title('portfolio: max mean-var')
 
 %-----show the differenve among the value
 figure(2)
@@ -47,9 +47,9 @@ hold on
 plot(mu_seq,opt_portfolio_meanvar_val_special-opt_val_meanvar_noconstraint,'-k')
 xline(mu_seq(find(feasible_not ==1,1,'last')),'--m','cut-off point');
 xlim([mu_seq(1),mu_seq(length(mu_seq))]);
-ylabel('objective value')
+ylabel('diff of objective value w.r.t. nonconstrained')
 legend('optimal trading strategy with chance constraint','affine trading strategy','threshold');
-xlabel('risk aversion')
-title('portfolio')
+xlabel('risk aversion \mu')
+title('portfolio: max mean-var')
 
 

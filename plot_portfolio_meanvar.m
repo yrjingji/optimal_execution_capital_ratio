@@ -1,5 +1,5 @@
 j=1;
-sigma = [0.9 0.2;0.2 0.9];
+sigma = [0.9 0.2;0.2 0.4];
 for mu=0:0.01:0.42
     [opt_portfolio_meanvar_val_noconstraint(j),opt_portfolio_meanvar_mean_noconstraint(j), ...
         opt_portfolio_meanvar_variance_noconstraint(j),opt_portfolio_meanvar_first_noconstraint(j,:),opt_portfolio_meanvar_second_noconstraint(j,:)] = ...

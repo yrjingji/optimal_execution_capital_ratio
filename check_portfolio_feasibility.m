@@ -1,4 +1,4 @@
-function real_q = check_portfolio_feasibility(strategy_first,strategy_second,k,sigma)
+ function real_q = check_portfolio_feasibility(strategy_first,strategy_second,k,sigma)
 %change the covariance matrix structure will make the results different a
 %lot
     vol_matrix = chol(sigma);
