@@ -1,14 +1,14 @@
 nonConsPosition = change_to_position(305,sol_first_noconstraint);
 consPosition = change_to_position(305,opt_portfolio_meanvar_first);
 affine_position = change_to_position(305,opt_portfolio_meanvar_first_special);
-plot([0:5],nonConsPosition(10,:),'-k');
+plot([0:5],nonConsPosition(9,:),'-k');
 hold on;
-plot([0:5],consPosition(11,:),'-b');
-plot([0:5],affine_position(11,:),'-r');
+plot([0:5],consPosition(9,:),'-b');
+plot([0:5],affine_position(9,:),'-r');
 % Set the x-axis to show only integer tick marks
 xticks(0:1:5);
 xticklabels(0:1:5);
 ylabel('remaining position')
-legend('optimal trading strategy without chance constraint','optimal strategy with constraint','optimal affine with constraint ');
-xlabel('time point')
-title('Liquidation trajactory (risk aversion = 0.1)')
+legend('uncosntrained','optimal strategy','optimal affine');
+xlabel('time')
+%title('Liquidation trajactory (risk aversion = 0.1)')
