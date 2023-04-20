@@ -45,7 +45,7 @@ function [opt_val,opt_sol,probability_split]=direct_chance_5time(k)
     negative_A5 = ones(5,5)*(0.5-k)*gamma + diag((beta- k*gamma - (0.5-k)*gamma)*ones(1,5));
     negative_b5 = ((k-1)*initial_price + k*X_0*gamma)*ones(1,5);
     negative_c5 = l - k*X_0*initial_price;
-    %fifth step:
+    %fourth step:
     D5 = [-k, 1-k,1-k,1-k, 1-k;-k, -k,1-k,1-k, 1-k;-k,-k,-k,1-k, 1-k;-k,-k,-k,-k, 1-k; -k*ones(1,5)];
     e5 = k*X_0*ones(5,1);
 
@@ -69,7 +69,7 @@ function [opt_val,opt_sol,probability_split]=direct_chance_5time(k)
                 quad_form([s(1);s(2);s(3);s(4)],negative_A4) + dot(negative_b4,[s(1);s(2);s(3);s(4)]) + negative_c4 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D4*[s(1);s(2);s(3);s(4)] + e4)<=0;
                 gamma*sum([s(1);s(2);s(3);s(4)]) - initial_price + sigma*sqrt(4*tau)*norminv(0.95+alpha) <=0;
         %fifth step
-                quad_form(s,negative_A5) + dot(negative_b5,s) + negative_c5 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D5*s + e5)<=0;
+         quad_form(s,negative_A5) + dot(negative_b5,s) + negative_c5 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D5*s + e5)<=0;
                 gamma*sum(s) - initial_price + sigma*sqrt(5*tau)*norminv(0.95+alpha) <=0;
                 
         %fully invest:

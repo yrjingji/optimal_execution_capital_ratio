@@ -12,4 +12,4 @@ function  plotPortfolioPosition(sol_nonstraint,opt_sol,opt_special,index)
     ylabel('remaining position')
     legend('uncosntrained','optimal strategy','optimal affine');
     xlabel('time')
-    %title('Liquidation trajactory (risk aversion = 0.1)')
+    %title('LiqplotPortfolioPosition(nonConstraintMeanvar,optMeanvar,optMeanvarAffine,index)uidation trajactory (risk aversion = 0.1)')

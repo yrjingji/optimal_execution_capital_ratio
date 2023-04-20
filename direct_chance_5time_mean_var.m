@@ -40,6 +40,14 @@ function [opt_val,mean_val,variance_val,opt_sol,prob_split_product]=direct_chanc
     %fourth step:
     D4 = [-k, 1-k,1-k,1-k;-k, -k,1-k,1-k;-k,-k,-k,1-k;-k,-k,-k,-k];
     e4 = k*X_0*ones(4,1);
+    %fifth step:
+    negative_A5 = ones(5,5)*(0.5-k)*gamma + diag((beta- k*gamma - (0.5-k)*gamma)*ones(1,5));
+    negative_b5 = ((k-1)*initial_price + k*X_0*gamma)*ones(1,5);
+    negative_c5 = l - k*X_0*initial_price;
+    %fifth step:
+    D5 = [-k, 1-k,1-k,1-k, 1-k;-k, -k,1-k,1-k, 1-k;-k,-k,-k,1-k, 1-k;-k,-k,-k,-k, 1-k; -k*ones(1,5)];
+    e5 = k*X_0*ones(5,1);
+
     %coefficients for variance in objective.
     Q(1,:) = sqrt(tau)*sigma*[0 1 1 1 1];
     Q(2,:) = sqrt(tau)*sigma*[0 0 1 1 1];
@@ -50,6 +58,7 @@ function [opt_val,mean_val,variance_val,opt_sol,prob_split_product]=direct_chanc
         alpha_2(j,:) = drchrnd([1,1],1)*0.05;
         alpha_3(j,:) = drchrnd([1,1],1)*0.05;
         alpha_4(j,:) = drchrnd([1,1],1)*0.05;
+        alpha_5(j,:) = drchrnd([1,1],1)*0.05;
     end
     for j=1:500
         cvx_begin quiet
@@ -69,7 +78,11 @@ function [opt_val,mean_val,variance_val,opt_sol,prob_split_product]=direct_chanc
         %fourth step
                 quad_form([s(1);s(2);s(3);s(4)],negative_A4) + dot(negative_b4,[s(1);s(2);s(3);s(4)]) + negative_c4 + sigma*sqrt(tau)*norminv(1-alpha_4(j,1))*norm(D4*[s(1);s(2);s(3);s(4)] + e4)<=0;
                 gamma*sum([s(1);s(2);s(3);s(4)]) - initial_price + sigma*sqrt(4*tau)*norminv(1-alpha_4(j,2)) <=0;
-        %fully invest:
+        %fifth step
+                quad_form(s,negative_A5) + dot(negative_b5,s) + negative_c5 + sigma*sqrt(tau)*norminv(1-alpha_5(j,1))*norm(D5*s + e5)<=0;
+                gamma*sum(s) - initial_price + sigma*sqrt(5*tau)*norminv(1-alpha_5(j,2)) <=0;
+                
+         %fully invest:
                 sum(s) - S_0 == 0;
                 for i=1:5
                     sum(s(1:i)) <= X_0;
