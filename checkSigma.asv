@@ -1,15 +1,15 @@
 
-parfor j=1:length(all_combinations)
-    if all_combinations(j,7) > all_combinations(j,8) 
-            [~,~,~,optSol(j,:),~] = direct_chance_5time_mean_var(all_combinations(j,:),0.5,0);
-
-    end
+parfor j=1:length(hyperSpace)
+    if hyperSpace(j,7) > hyperSpace(j,8) 
+            [~,~,~,optSol(j,:),~] = direct_chance_5time_mean_var(sigmaSeq(j),0.5,0);
 end
+
 
 %record the probability split to the product one 
 function [opt_val,mean_val,variance_val,opt_sol,prob_split_product]=direct_chance_5time_mean_var(params,k,mu)
-    sigma = params[1];
-    initial_price = params[2];
+    
+    sigma = params[]
+initial_price = params[2];
     %standard deviation
     tau = params[3];
     l = params[4];
