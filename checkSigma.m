@@ -1,15 +1,15 @@
-sigmaSeq = 0.01:0.01:0.9;
-for j=1:length(sigmaSeq)
+sigmaSeq = 0.01:0.1:0.91;
+parfor j=1:length(sigmaSeq)
     [~,~,~,optSol(j,:),~] = direct_chance_5time_mean_var(sigmaSeq(j),0.5,0);
 end
 
 
 %record the probability split to the product one 
 function [opt_val,mean_val,variance_val,opt_sol,prob_split_product]=direct_chance_5time_mean_var(sigma,k,mu)
-    initial_price = 17;
+    initial_price = 18;
     %standard deviation
     tau = 1;
-    l = 1200;
+    l = 1100;
     X_0 = 305;
     S_0 = 250;
     beta = .09;
