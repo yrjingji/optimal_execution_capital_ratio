@@ -7,7 +7,7 @@ function [opt_val,opt_sol,probability_split]=direct_chance_5time(k)
     X_0 = 305;
     S_0 = 250;
     beta = .09;
-    gamma = .072;
+    gamma = .05;
     %objective function
     negative_P0 = 0.5*gamma*ones(5,5) + diag(ones(1,5)*(beta - 0.5*gamma));
     negative_q0 = -initial_price*ones(1,5);
@@ -57,18 +57,18 @@ function [opt_val,opt_sol,probability_split]=direct_chance_5time(k)
             minimize(quad_form(s,negative_P0) + dot(negative_q0,s))
             subject to
         %first step
-                quad_form(s(1),negative_A1) + dot(negative_b1,s(1)) + negative_c1 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D1*s(1) + e1)<=0;
-                gamma*s(1) - initial_price + sigma*sqrt(tau)*norminv(0.95+alpha) <=0;
-        %second step
-                quad_form([s(1);s(2)],negative_A2) + dot(negative_b2,[s(1);s(2)]) + negative_c2 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D2*[s(1);s(2)] + e2)<=0;
-                gamma*sum([s(1);s(2)]) - initial_price + sigma*sqrt(2*tau)*norminv(0.95+alpha) <=0;
-        %third step
-                quad_form([s(1);s(2);s(3)],negative_A3) + dot(negative_b3,[s(1);s(2);s(3)]) + negative_c3 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D3*[s(1);s(2);s(3)] + e3)<=0;
-                gamma*sum([s(1);s(2);s(3)]) - initial_price + sigma*sqrt(3*tau)*norminv(0.95+alpha) <=0;
-        %fourth step
-                quad_form([s(1);s(2);s(3);s(4)],negative_A4) + dot(negative_b4,[s(1);s(2);s(3);s(4)]) + negative_c4 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D4*[s(1);s(2);s(3);s(4)] + e4)<=0;
-                gamma*sum([s(1);s(2);s(3);s(4)]) - initial_price + sigma*sqrt(4*tau)*norminv(0.95+alpha) <=0;
-        %fifth step
+        %         quad_form(s(1),negative_A1) + dot(negative_b1,s(1)) + negative_c1 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D1*s(1) + e1)<=0;
+        %         gamma*s(1) - initial_price + sigma*sqrt(tau)*norminv(0.95+alpha) <=0;
+        % %second step
+        %         quad_form([s(1);s(2)],negative_A2) + dot(negative_b2,[s(1);s(2)]) + negative_c2 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D2*[s(1);s(2)] + e2)<=0;
+        %         gamma*sum([s(1);s(2)]) - initial_price + sigma*sqrt(2*tau)*norminv(0.95+alpha) <=0;
+        % %third step
+        %         quad_form([s(1);s(2);s(3)],negative_A3) + dot(negative_b3,[s(1);s(2);s(3)]) + negative_c3 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D3*[s(1);s(2);s(3)] + e3)<=0;
+        %         gamma*sum([s(1);s(2);s(3)]) - initial_price + sigma*sqrt(3*tau)*norminv(0.95+alpha) <=0;
+        % %fourth step
+        %         quad_form([s(1);s(2);s(3);s(4)],negative_A4) + dot(negative_b4,[s(1);s(2);s(3);s(4)]) + negative_c4 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D4*[s(1);s(2);s(3);s(4)] + e4)<=0;
+        %         gamma*sum([s(1);s(2);s(3);s(4)]) - initial_price + sigma*sqrt(4*tau)*norminv(0.95+alpha) <=0;
+        % %fifth step
                 quad_form(s,negative_A5) + dot(negative_b5,s) + negative_c5 + sigma*sqrt(tau)*norminv(1-alpha)*norm(D5*s + e5)<=0;
                 gamma*sum(s) - initial_price + sigma*sqrt(5*tau)*norminv(0.95+alpha) <=0;
                 
