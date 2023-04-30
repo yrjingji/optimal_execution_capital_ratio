@@ -66,13 +66,14 @@ function [opt_val,opt_mean,opt_var,sol_first,sol_second,prob_split_product] = ge
     
    %fourth step capital ratio constraint
     negative_A4 = [A,B,B,B;B,A,B,B;B,B,A,B;B,B,B,A];
-    negative_b4 = [ negative_b3,[(k(2)-1)*initial_price(2)+k(2)*X_0(2)*gamma(2,2) + k(1)*X_0(1)*gamma(2,1),....
-        (k(1)-1)*initial_price(1)+k(1)*X_0(1)*gamma(1,1)+k(2)*X_0(2)*gamma(1,2)]];
+    
+    negative_b4 = [ negative_b3,[(k(1)-1)*initial_price(1)+k(1)*X_0(1)*gamma(1,1)+k(2)*X_0(2)*gamma(1,2),....
+        (k(2)-1)*initial_price(2)+k(2)*X_0(2)*gamma(2,2) + k(1)*X_0(1)*gamma(2,1)]];
     negative_c4 = l - k(1)*X_0(1)*initial_price(1) - k(2)*X_0(2)*initial_price(2);
     %fourth step first chance constraint's coefficients
     D4(1,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,1-k(1),0,1-k(1),0,1-k(1),0];
     D4(2,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,1-k(2),0,1-k(2),0,1-k(2)];
-    D4(3,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,1-k(1),0,0,1-k(1)];
+    D4(3,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,1-k(1),0,1-k(1),0];
     D4(4,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,1-k(2),0,1-k(2)];
     D4(5,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,-k(1),0,1-k(1),0];
     D4(6,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,-k(2),0,1-k(2)];
@@ -81,8 +82,25 @@ function [opt_val,opt_mean,opt_var,sol_first,sol_second,prob_split_product] = ge
     
     e4 = [e3;[sqrt(sigma(1,1)*tau)*k(1)*X_0(1); sqrt(sigma(2,2)*tau)*k(2)*X_0(2)]];
     
+    %fifth step capital ratio constraint
+    negative_A5 = [A,B,B,B,B;B,A,B,B,B;B,B,A,B,B;B,B,B,A,B;B,B,B,B,A ];
+    negative_b5 = [ negative_b4,[(k(1)-1)*initial_price(1)+k(1)*X_0(1)*gamma(1,1)+k(2)*X_0(2)*gamma(1,2),....
+        (k(2)-1)*initial_price(2)+k(2)*X_0(2)*gamma(2,2) + k(1)*X_0(1)*gamma(2,1)]];
+    negative_c5 = l - k(1)*X_0(1)*initial_price(1) - k(2)*X_0(2)*initial_price(2);
+    %fifth step first chance constraint's coefficients
+    D5(1,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,1-k(1),0,1-k(1),0,1-k(1),0,1-k(1),0];
+    D5(2,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,1-k(2),0,1-k(2),0,1-k(2)0,1-k(2)];
+    D5(3,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,1-k(1),0,1-k(1),0,1-k(1),0];
+    D5(4,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,1-k(2),0,1-k(2),0,1-k(2)];
+    D5(5,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,-k(1),0,1-k(1),0,1-k(1),0];
+    D5(6,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,-k(2),0,1-k(2),0,1-k(2)];
+    D5(7,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,-k(1),0,-k(1),0,1-k(1),0];
+    D5(8,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,-k(2),0,-k(2),0,1-k(2)];
+    D5(9,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,-k(1),0,-k(1),0,-k(1),0];
+    D5(10,:)= sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,-k(2),0,-k(2),0,-k(2)];
+    e5 = [e4;[sqrt(sigma(1,1)*tau)*k(1)*X_0(1); sqrt(sigma(2,2)*tau)*k(2)*X_0(2)]];
     
-    
+
     %cholesky decompostion
     cov_1 = sigma;
     U1 = chol(cov_1);
@@ -93,11 +111,16 @@ function [opt_val,opt_mean,opt_var,sol_first,sol_second,prob_split_product] = ge
     cov_4 = [sigma zeros(2,2) zeros(2,2) zeros(2,2);zeros(2,2) sigma  zeros(2,2) zeros(2,2);...
         zeros(2,2) zeros(2,2) sigma zeros(2,2); zeros(2,2) zeros(2,2) zeros(2,2) sigma];
     U4 = chol(cov_4);
+    cov_5 = [sigma zeros(2,2) zeros(2,2) zeros(2,2) zeros(2,2);zeros(2,2) sigma  zeros(2,2) zeros(2,2) zeros(2,2);...
+        zeros(2,2) zeros(2,2) sigma zeros(2,2) zeros(2,2); zeros(2,2) zeros(2,2) zeros(2,2) sigma zeros(2,2);
+        zeros(2,2) zeros(2,2) zeros(2,2) zeros(2,2) sigma];
+    U5 = chol(cov_5);
     for j=1:500
         alpha_1(j,:) = drchrnd([1,1,1],1)*0.05;
         alpha_2(j,:) = drchrnd([1,1,1],1)*0.05;
         alpha_3(j,:) = drchrnd([1,1,1],1)*0.05;
         alpha_4(j,:) = drchrnd([1,1,1],1)*0.05;
+        alpha_5(j,:) = drchrnd([1,1,1],1)*0.05;
     end
     for j=1:500
         cvx_begin quiet
@@ -138,6 +161,15 @@ function [opt_val,opt_mean,opt_var,sol_first,sol_second,prob_split_product] = ge
             %fourth step second chance constraint's coefficients
             gamma(1,1)*sum([s1(1),s1(2),s1(3),s1(4)])+gamma(2,1)*sum([s2(1),s2(2),s2(3),s2(4)]) - initial_price(1) + sqrt(sigma(1,1)*4*tau)*norminv(1-alpha_4(j,2)) <=0;
             gamma(1,2)*sum([s1(1),s1(2),s1(3),s1(4)])+gamma(2,2)*sum([s2(1),s2(2),s2(3),s2(4)]) - initial_price(2) + sqrt(sigma(2,2)*4*tau)*norminv(1-alpha_4(j,3)) <=0;
+            %fifth step's first constraint
+            trans_s_fifth= [s1(1),s2(1),s1(2),s2(2),s1(3),s2(3),s1(4),s2(4),s1(5),s2(5)];
+            quad_form(trans_s_fifth,negative_A5)+dot(negative_b5,trans_s_fifth)+negative_c5+norminv(1-alpha_5(j,1))*norm(U5 * D5 *trans_s_fifth'+U5*e5)<=0;
+
+            %fifth step's second chance constraint
+            gamma(1,1)*sum(s1)+gamma(2,1)*sum(s2) - initial_price(1) + sqrt(sigma(1,1)*5*tau)*norminv(1-alpha_5(j,2)) <=0;
+            gamma(1,2)*sum(s1)+gamma(2,2)*sum(s2) - initial_price(2) + sqrt(sigma(2,2)*5*tau)*norminv(1-alpha_5(j,3)) <=0;
+
+
             %fully invest:
             sum(s1) -S_0(1) == 0;
             sum(s2) - S_0(2) == 0;
