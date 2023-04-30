@@ -1,13 +1,13 @@
 function real_q = check_single_feasible(s,k)
-    initial_price = 17;
+    initial_price = 16;
     %standard deviation
-    sigma = 0.7;
+    sigma = 0.77;
     tau = 1;
     l = 1200;
     X_0 = 305;
-    beta = .09;
-    gamma = .072;
-    
+    S_0 = 250;
+    beta = .095;
+    gamma = .05;
     %check the violation of naive trading strategy for each time step
     %1,2,3,4
     s1 =s(1);

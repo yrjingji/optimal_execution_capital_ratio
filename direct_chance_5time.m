@@ -1,12 +1,12 @@
 function [opt_val,opt_sol,probability_split]=direct_chance_5time(k)
-    initial_price = 17;
+    initial_price = 16;
     %standard deviation
-    sigma = 0.7;
+    sigma = 0.77;
     tau = 1;
     l = 1200;
     X_0 = 305;
     S_0 = 250;
-    beta = .09;
+    beta = .095;
     gamma = .05;
     %objective function
     negative_P0 = 0.5*gamma*ones(5,5) + diag(ones(1,5)*(beta - 0.5*gamma));
