@@ -89,7 +89,7 @@ function [opt_val,opt_mean,opt_var,sol_first,sol_second,prob_split_product] = ge
     negative_c5 = l - k(1)*X_0(1)*initial_price(1) - k(2)*X_0(2)*initial_price(2);
     %fifth step first chance constraint's coefficients
     D5(1,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,1-k(1),0,1-k(1),0,1-k(1),0,1-k(1),0];
-    D5(2,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,1-k(2),0,1-k(2),0,1-k(2)0,1-k(2)];
+    D5(2,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,1-k(2),0,1-k(2),0,1-k(2),0,1-k(2)];
     D5(3,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,1-k(1),0,1-k(1),0,1-k(1),0];
     D5(4,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,1-k(2),0,1-k(2),0,1-k(2)];
     D5(5,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,-k(1),0,1-k(1),0,1-k(1),0];
