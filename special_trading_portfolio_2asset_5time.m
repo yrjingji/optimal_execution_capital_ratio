@@ -81,7 +81,23 @@ function [opt_val,sol_first,sol_second,prob_split_product]=special_trading_portf
     
     e4 = [e3;[sqrt(sigma(1,1)*tau)*k(1)*X_0(1); sqrt(sigma(2,2)*tau)*k(2)*X_0(2)]];
     
-    
+    %fifth step capital ratio constraint
+    negative_A5 = [A,B,B,B,B;B,A,B,B,B;B,B,A,B,B;B,B,B,A,B;B,B,B,B,A ];
+    negative_b5 = [ negative_b4,[(k(1)-1)*initial_price(1)+k(1)*X_0(1)*gamma(1,1)+k(2)*X_0(2)*gamma(1,2),....
+        (k(2)-1)*initial_price(2)+k(2)*X_0(2)*gamma(2,2) + k(1)*X_0(1)*gamma(2,1)]];
+    negative_c5 = l - k(1)*X_0(1)*initial_price(1) - k(2)*X_0(2)*initial_price(2);
+    %fifth step first chance constraint's coefficients
+    D5(1,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,1-k(1),0,1-k(1),0,1-k(1),0,1-k(1),0];
+    D5(2,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,1-k(2),0,1-k(2),0,1-k(2)0,1-k(2)];
+    D5(3,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,1-k(1),0,1-k(1),0,1-k(1),0];
+    D5(4,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,1-k(2),0,1-k(2),0,1-k(2)];
+    D5(5,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,-k(1),0,1-k(1),0,1-k(1),0];
+    D5(6,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,-k(2),0,1-k(2),0,1-k(2)];
+    D5(7,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,-k(1),0,-k(1),0,1-k(1),0];
+    D5(8,:) = sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,-k(2),0,-k(2),0,1-k(2)];
+    D5(9,:) = sqrt(sigma(1,1)*tau)*[-k(1), 0,-k(1),0,-k(1),0,-k(1),0,-k(1),0];
+    D5(10,:)= sqrt(sigma(2,2)*tau)*[0,-k(2), 0,-k(2),0,-k(2),0,-k(2),0,-k(2)];
+    e5 = [e4;[sqrt(sigma(1,1)*tau)*k(1)*X_0(1); sqrt(sigma(2,2)*tau)*k(2)*X_0(2)]];
     
     %cholesky decompostion
     cov_1 = sigma;
