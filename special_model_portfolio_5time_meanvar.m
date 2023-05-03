@@ -2,7 +2,7 @@ function [opt_val,opt_mean,opt_var,sol_first,sol_second,prob_split_product] = sp
     %the decision variables need to change the order to (s1,u1,s2,u2,s3,u3,s4,u4,s5,u5)
     k1 = k(1);
     k2 = k(2);
-    initial_price = [17;17];
+    initial_price = [16;16];
     tau = 1;
     l = 1200;
     X_0 = [305;305];
